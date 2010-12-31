@@ -1,5 +1,6 @@
 import os
 import config
+import shutil
 try:
 	import imdb
 except:
@@ -31,9 +32,17 @@ class Movie:
 		self.result = search_results[0]
 		self.imdb.update(self.result)
 		self.title = self.result['long imdb canonical title']
+
+	def move_to_library(self):
+		path = self.config.get_librarydir() + '/' + self.title
+		if not os.path.exists(path):
+			os.makedirs(path)
+		filename = path + '/' + self.title + '.' + self.splitname[-1]
+		shutil.copy(self.fullpath, filename) 
 	
 	def print_metadata(self):
 		print "Title: ", self.title
+		print "Filetype: ", self.splitname[-1]
 		print self.config.get_librarydir()
 
 	def summarize(self):

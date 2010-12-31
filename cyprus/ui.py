@@ -23,4 +23,5 @@ class Main:
 			print "Looking up movie %s" % sys.argv[1]
 			mov.lookup()
 			mov.print_metadata()
+			mov.move_to_library()
 			#mov.summarize()
