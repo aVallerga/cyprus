@@ -1,6 +1,7 @@
 import os
 import config
 import shutil
+import urllib
 try:
 	import imdb
 except:
@@ -39,6 +40,8 @@ class Movie:
 			os.makedirs(path)
 		filename = path + '/' + self.title + '.' + self.splitname[-1]
 		shutil.copy(self.fullpath, filename) 
+		coverurl = self.result['full-size cover url']
+		urllib.urlretrieve(coverurl, path + '/' + self.title + '.tbn')
 	
 	def print_metadata(self):
 		print "Title: ", self.title
