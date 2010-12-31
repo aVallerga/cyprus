@@ -1,4 +1,5 @@
 import os
+import config
 try:
 	import imdb
 except:
@@ -32,6 +33,7 @@ class Movie:
 	
 	def print_metadata(self):
 		print "Title: ", self.title
+		print config.librarydir
 
 	def summarize(self):
 		print self.result.summary()

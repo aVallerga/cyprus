@@ -1,6 +1,5 @@
 import sys
 import movie
-
 """
 Main class which handles user input sanitization
 """
