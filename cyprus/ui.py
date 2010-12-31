@@ -17,4 +17,5 @@ class Main:
 			mov = movie.Movie(sys.argv[1])
 			print "Looking up movie %s" % sys.argv[1]
 			mov.lookup()
-			mov.summarize()
+			mov.print_metadata()
+			#mov.summarize()

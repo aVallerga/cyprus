@@ -16,11 +16,22 @@ class Movie:
 		self.splitname = self.filename.split('.')
 		self.imdb = imdb.IMDb()
 		self.result = None
+		self.title = None
 	
 	def lookup(self):
-		search_results = self.imdb.search_movie(self.splitname[0])
+		try:
+			search_results = self.imdb.search_movie(self.splitname[0])
+		except imdb.IMDbError, e:
+			print "Probably no connection to the internet. Full error follows:"
+			print e
+			sys.exit(3)
+			
 		self.result = search_results[0]
 		self.imdb.update(self.result)
+		self.title = self.result['long imdb canonical title']
 	
+	def print_metadata(self):
+		print "Title: ", self.title
+
 	def summarize(self):
 		print self.result.summary()
