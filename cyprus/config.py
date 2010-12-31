@@ -1,22 +1,41 @@
 import ConfigParser
 import os
 
-configfile = '~/.cyprus/config'
-configfile = os.path.expanduser(configfile)
+"""
+Config module, reads from ~/.cyprus/config or creates a basic config if one
+does not exist.
+"""
+class Config:
+	def __init__(self):
+		configfile = '~/.cyprus/config'
+		self.configfile = os.path.expanduser(configfile)
+		self.config = ConfigParser.ConfigParser()
+		(self.path, self.filename) = os.path.split(self.configfile)
 
-config = ConfigParser.ConfigParser()
+	"""
+	Make sure configuration file and directory exists, reads library location
+	and creates library directories if they do not exist. Must be called once
+	before accessing configuration
+	"""
+	def check_config(self):
+		if not os.path.exists(self.path):
+			os.makedirs(self.path)
+		if not os.path.exists(self.configfile):
+			self.config.add_section('basic')
+			self.config.set('basic', 'library', '~/CyprusLib')
+			configsocket = open(self.configfile, 'wb')
+			self.config.write(configsocket)
 
-(path, filename) = os.path.split(configfile)
-if not os.path.exists(path):
-	os.makedirs(path)
+		self.config.read(self.configfile)
 
-if not os.path.exists(configfile):
-	config.add_section('basic')
-	config.set('basic', 'library', '~/CyprusLib')
-	configsocket = open(configfile, 'wb')
-	config.write(configsocket)
+		# Make sure whatever library directory is specified exists
+		librarydir = os.path.expanduser(self.config.get('basic', 'library'))
+		if not os.path.exists(librarydir):
+			os.makedirs(librarydir)
 
-config.read(configfile)
-librarydir = os.path.expanduser(config.get('basic', 'library'))
-if not os.path.exists(librarydir):
-	os.makedirs(librarydir)
+	"""
+	Returns location of library directory
+	"""
+	def get_librarydir(self):
+		self.config.read(self.configfile)
+		return os.path.expanduser(self.config.get('basic', 'library'))

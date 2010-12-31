@@ -7,7 +7,7 @@ except:
 	sys.exit(1)
 
 """
-Movie object, holds file information and metadata, is responsible for
+Movie class, holds file information and metadata, is responsible for
 low level moving and writing metadata
 """
 class Movie:
@@ -15,6 +15,7 @@ class Movie:
 		self.fullpath = fullpath
 		(self.path, self.filename) = os.path.split(fullpath)
 		self.splitname = self.filename.split('.')
+		self.config = config.Config()
 		self.imdb = imdb.IMDb()
 		self.result = None
 		self.title = None
@@ -33,7 +34,7 @@ class Movie:
 	
 	def print_metadata(self):
 		print "Title: ", self.title
-		print config.librarydir
+		print self.config.get_librarydir()
 
 	def summarize(self):
 		print self.result.summary()

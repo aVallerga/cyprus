@@ -1,11 +1,14 @@
 import sys
 import movie
+import config
 """
 Main class which handles user input sanitization
 """
 class Main:
 	def __init__(self):
 		self.argv = sys.argv
+		self.config = config.Config()
+		self.config.check_config()
 	
 	def read_input(self):
 		if len(self.argv) != 2:
